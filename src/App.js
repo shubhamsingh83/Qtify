@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Hero from './components/Hero/Hero';
 import Section from "./components/Section/Section";
 import { useState } from "react";
-import { fetchSongs, fetchTopAlbums } from "./api/api";
+import { fetchNewAlbums, fetchSongs, fetchTopAlbums } from "./api/api";
 import { useEffect } from "react";
 import styles from "./App.module.css"
 
@@ -10,8 +10,8 @@ import styles from "./App.module.css"
 function App() {
   //const[data,setData]  = useState([]);
   const [topAlbumsData,setTopAlbumsData] = useState([]);
-  const [songsData,setSongsData] = useState([]);
-  // const [filteredDataValues,setFilteredDataValues] =useState([]);
+  const [newAlbumsData,setNewAlbumsData] = useState([]);
+  
 
 const generateTopAlbums = async()=>{
   try{
@@ -23,15 +23,12 @@ const generateTopAlbums = async()=>{
 
 }
 
-// const filteredData = (val)=>{
-//   console.log(val);
-//   setFilteredDataValues(val);
-// }
 
-const generateAllSongData = async()=>{
+
+const generateNewAlbums = async()=>{
   try{
-       const data = await fetchSongs();
-       setSongsData(data);
+       const data = await fetchNewAlbums();
+       setNewAlbumsData(data);
   } catch(err){
      console.error(err);
   }
@@ -40,7 +37,7 @@ const generateAllSongData = async()=>{
 
 useEffect(()=>{
    generateTopAlbums();
-   generateAllSongData ();
+   generateNewAlbums ();
 },[])
 
   return (
@@ -60,7 +57,7 @@ useEffect(()=>{
       />
 
     <Section 
-      data = {topAlbumsData}
+      data = {newAlbumsData}
       title="New Albums" 
       type="album"
       />
