@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Hero from './components/Hero/Hero';
 import Section from "./components/Section/Section";
 import { useState } from "react";
-import { fetchNewAlbums, fetchSongs, fetchTopAlbums } from "./api/api";
+import { fetchNewAlbums,  fetchTopAlbums } from "./api/api";
 import { useEffect } from "react";
 import styles from "./App.module.css"
 
