@@ -1,23 +1,23 @@
-import React from 'react'
-import { useState,useEffect } from 'react'
-import { useSwiper } from 'swiper/react'
-import {ReactComponent as LeftArrow} from '../../../assets/LeftArrow.svg'
-import styles from './CarouselLeftNavigation.module.css'
+import React, { useEffect, useState } from 'react';
+import { useSwiper } from 'swiper/react';
+import { ReactComponent as LeftArrow } from '../../assets/LeftArrow.svg';
+import styles from './Carousel.module.css'
 
 const CarouselLeftNavigation = () => {
-    const swiper = useSwiper();
-    const [isBeginning,setIsBeginning] = useState(swiper.isBeginning)
+  const swiper = useSwiper();
+  const [isBeginning ,setIsBeginning] = useState(swiper.isBeginning);
 
-    useEffect(() => {
-        swiper.on("slideChange", () => {
-            setIsBeginning(swiper.isBeginning)
-        })
-    },[swiper])
+  useEffect(()=>{
+       swiper.on("slideChange",function(){
+        setIsBeginning(swiper.isBeginning);
+       })
+  },[isBeginning, swiper])
+
   return (
     <div className={styles.leftNavigation}>
-        {!isBeginning && <LeftArrow onClick={() => swiper.slidePrev()}/>}
+        {!isBeginning ? <LeftArrow onClick={()=>swiper.slidePrev()}/>:null}
     </div>
   )
 }
 
-export default CarouselLeftNavigation;
+export default CarouselLeftNavigation
