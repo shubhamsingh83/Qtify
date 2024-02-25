@@ -2,7 +2,7 @@ import React ,{useState}from 'react';
 import styles from './Section.module.css'
 import { CircularProgress } from '@mui/material';
 import Card from '../Card/Card';
-import Carousel from '../Carousel/Carousel';
+import Carousel from '../../carousel/Carousel';
 
 const Section = ({data,title,type}) => {
     const[carouselToggle,setCarouselToggle] = useState(true);
