@@ -8,14 +8,15 @@ const CarouselLeftNavigation = () => {
   const [isBeginning ,setIsBeginning] = useState(swiper.isBeginning);
 
   useEffect(()=>{
-       swiper.on("slideChange",function(){
+       swiper.on("slideChange",()=>{
         setIsBeginning(swiper.isBeginning);
        })
-  },[isBeginning, swiper])
+  },[swiper])
 
   return (
     <div className={styles.leftNavigation}>
-        {!isBeginning ? <LeftArrow onClick={()=>swiper.slidePrev()}/>:null}
+        {/* {!isBeginning ? <LeftArrow onClick={()=>swiper.slidePrev()}/>:null} */}
+        {!isBeginning && <LeftArrow onClick={() => swiper.slidePrev()}/>}
     </div>
   )
 }

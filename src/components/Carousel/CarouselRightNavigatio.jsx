@@ -8,11 +8,11 @@ const CarouselRightNavigation = () => {
   const [isEnd, setIsEnd] = useState(swiper.isEnd);
 
   useEffect(()=>{
-       swiper.on("slideChange",function(){
+       swiper.on("slideChange",()=>{
         setIsEnd(swiper.isEnd);
        })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[isEnd])
+  })
 
   return (
     <div className={styles.rightNavigation}>
