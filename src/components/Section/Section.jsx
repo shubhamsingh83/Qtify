@@ -24,7 +24,7 @@ const Section = ({data,title,type}) => {
             ):(
                 <div className={styles.cardsWrapper}>{!carouselToggle?(<div className={styles.wrapper}>
                     {data.map((ele)=>(
-                       <Card data = {ele} type={type}/>
+                       <Card data = {ele} type={type} key={ele.id}/>
                     ))}
                 </div>):(<Carousel data ={data} renderComponent={(data)=><Card data ={data} type={type}/>}/>)}</div>
                

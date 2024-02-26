@@ -10,8 +10,10 @@ import 'swiper/css';
 const Controls = ({data})=>{
     const swiper = useSwiper();
     useEffect(()=>{
-          swiper.slideTo(0,null)
+          swiper.slideTo(0,null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[data]);
+
     return <></>;
 }
 const Carousel = ({data,renderComponent}) => {
@@ -20,8 +22,8 @@ const Carousel = ({data,renderComponent}) => {
      <Swiper 
      style= {{padding:"0px 20px"}}
      initialSlide = {0}
-     modules={[Navigation]}
-     slidesPerView="auto"
+     modules={{Navigation}}
+     slidesPerView={'auto'}
      spaceBetween={40}
      allowTouchMove
      >
