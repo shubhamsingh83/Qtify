@@ -1,69 +1,119 @@
-import Navbar from "./components/Navbar/Navbar";
-import Hero from './components/Hero/Hero';
-import Section from "./components/Section/Section";
-import { useState } from "react";
-import { fetchNewAlbums,  fetchTopAlbums } from "./api/api";
-import { useEffect } from "react";
-import styles from "./App.module.css"
-
+import React from 'react'
+import Navbar from './components/Navbar/Navbar.jsx'
+import Hero from './components/Hero/Hero.jsx'
+import styles from './App.module.css'
+import { useEffect, useState } from 'react'
+import { fetchTopAlbums, fetchNewAlbums, fetchSongs } from './api/api'
+import Section from './components/Section/Section.jsx'
+import FilterSection from './components/FilterSection/FilterSection'
 
 function App() {
-  //const[data,setData]  = useState([]);
-  const [topAlbumsData,setTopAlbumsData] = useState([]);
-  const [newAlbumsData,setNewAlbumsData] = useState([]);
+
+  const [topAlbumSongs, setTopAlbumSongs] = useState([])
+  const [newAlbumSongs, setNewAlbumSongs] = useState([])
   
+  const [filteredDataValues, setFilteredDataValues] = useState([''])
+  const [toggle, setToggle] = useState(false)
+  const [value, setValue] = useState(0);
 
-const generateTopAlbums = async()=>{
-  try{
-       const data = await fetchTopAlbums();
-       setTopAlbumsData(data);
-  } catch(err){
-     console.error(err);
+  const generateSongsData = (value) => {
+    let songData = newAlbumSongs[0].songs;
+    let key;
+    if (value === 0) {
+      setFilteredDataValues(songData)
+      return;
+    }
+    else if (value === 1) {
+      key = 'rock'
+    }
+    else if (value === 2) {
+      key = 'pop'
+    }
+    else if (value === 3) {
+      key = 'jazz'
+    }
+    else if (value === 4) {
+      key = 'blues'
+    }
+    const data = songData.filter((item) => {
+      return item.genre.key === key
+    })
+    setFilteredDataValues(data)
   }
 
-}
-
-
-
-const generateNewAlbums = async()=>{
-  try{
-       const data = await fetchNewAlbums();
-       setNewAlbumsData(data);
-  } catch(err){
-     console.error(err);
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+    generateSongsData(newValue)
+  }
+  const handleToggle = () => {
+    setToggle(!toggle)
   }
 
-}
+  const filteredData = (val) => {
+    generateSongsData(val)
+    // console.log(val + ' filteredData is called from app.js')
+  }
 
-useEffect(()=>{
-   generateTopAlbums();
-   generateNewAlbums ();
-},[])
+  const generateTopAlbumSongs = async () => {
+    try {
+      const topAlbumSongs = await fetchTopAlbums()
+      setTopAlbumSongs(topAlbumSongs)
+    }
+    catch (error) {
+      console.log(error)
+      return null
+    }
 
+  }
+  const generateNewAlbumSongs = async () => {
+    try {
+      const newAlbumSongs = await fetchNewAlbums()
+      setNewAlbumSongs(newAlbumSongs);
+      // setFilteredDataValues(newAlbumSongs);
+    }
+    catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  const generateFilterSongs = async () => {
+    try {
+      const newAlbumSongs = await fetchSongs()
+      // setNewAlbumSongs(newAlbumSongs);
+      setFilteredDataValues(newAlbumSongs);
+    }
+    catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line
+  }, [value])
+
+  useEffect(() => {
+    
+    generateTopAlbumSongs();
+    generateNewAlbumSongs();
+    generateFilterSongs();
+    // setFilteredDataValues(newAlbumSongs);
+
+  }, [])
+  
+  
   return (
-  <div>
-     <Navbar/>
-     <Hero/>
-     {/* {
-      topAlbumsData.map((topAlbum)=> (
-        <Card data={topAlbum} type="album" key={topAlbum.id}/>
-      ))
-     } */}
-     <div className={styles.sectionWrapper}>
-     <Section 
-      data = {topAlbumsData}
-      title="Top Albums" 
-      type="album"
-      />
-
-    <Section 
-      data = {newAlbumsData}
-      title="New Albums" 
-      type="album"
-      />
-     </div>
-  </div>
-  );
+    <>
+      <Navbar />
+      <Hero />
+      <div className={styles.sectionWrapper}>
+        <Section type='album' title='Top Albums' data={topAlbumSongs} />
+        <Section type='album' title='New Albums' data={newAlbumSongs} />
+        <FilterSection data={newAlbumSongs} type='songFilter' title='Songs' filteredData={filteredData} filteredDataValues={filteredDataValues} value={value} handleChange={handleChange} handleToggle={handleToggle}/>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App

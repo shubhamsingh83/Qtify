@@ -11,7 +11,7 @@ const Section = ({data,title,type}) => {
         setCarouselToggle(!carouselToggle);
     }
   return (
-    <div>
+    <div> 
         <div className={styles.header}>
             <h3>{title}</h3>
             <h4 className={styles.toggleText} onClick={handleToggle}>
